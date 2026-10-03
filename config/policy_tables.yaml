@@ -1,0 +1,62 @@
+equipment_budget_eur:
+  junior: 1800
+  medior: 2200
+  senior: 2600
+  lead: 3000
+
+remote_monitor_allowance_eur: 350
+
+access_matrix:
+  software_engineer:
+    - email
+    - slack
+    - gitlab
+    - vpn
+    - jira
+    - aws_dev
+  data_analyst:
+    - email
+    - slack
+    - jira
+    - tableau
+    - snowflake_read
+    - vpn
+  finance_officer:
+    - email
+    - slack
+    - erp_finance
+    - expense_tool
+  hr_coordinator:
+    - email
+    - slack
+    - hris
+    - ats
+  sales_rep:
+    - email
+    - slack
+    - crm
+    - expense_tool
+  engineering_manager:
+    - email
+    - slack
+    - gitlab
+    - vpn
+    - jira
+    - aws_dev
+    - hris_team_view
+
+privileged_systems:
+  - aws_prod
+  - erp_admin
+  - hris
+
+training_deadlines_days:
+  compliance_training: 14
+  security_training: 30
+
+min_notice_days: 10
+
+mandatory_day1_events:
+  - it_setup
+  - manager_1on1
+  - hr_intro
