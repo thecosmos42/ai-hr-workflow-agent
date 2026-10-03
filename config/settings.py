@@ -3,11 +3,17 @@ import os
 from datetime import date
 from pathlib import Path
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """Application settings."""
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
 
     # LLM configuration (DEVIATIONS P13)
     llm_model: str = "claude-haiku-4-5-20251001"
@@ -27,11 +33,6 @@ class Settings(BaseSettings):
 
     # Dates (DEVIATIONS P2)
     today_override: str | None = None
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
 
 
 def get_settings() -> Settings:

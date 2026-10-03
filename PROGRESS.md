@@ -1,12 +1,12 @@
 # PROGRESS
 
-Current step: **1**
+Current step: **2**
 Rule: do not start step N+1 until step N is ticked. Tick only after the acceptance command was actually run and passed.
 
 | # | Step | Done | Acceptance command(s) |
 |---|------|------|-----------------------|
 | 1 | Scaffold, config, schemas, db, seed, init_all | [x] | `python scripts/init_all.py` twice → 5 managers, ≥20 catalog rows, no duplicates |
-| 2 | Tools (all 5) + tests | [ ] | `pytest tests/test_tools.py -q` |
+| 2 | Tools (all 5) + tests | [x] | `pytest tests/test_tools.py -q` |
 | 3 | Validators + routing + tests | [ ] | `pytest tests/test_validators.py tests/test_routing.py -q` |
 | 4 | Policy handbook + RAG index | [ ] | `python -c "from onboard_pilot.tools.policy_rag import query_policy; print(query_policy('monitor allowance remote'))"` shows §6.4 |
 | 5 | Linear graph, happy path | [ ] | `python scripts/run_case.py evals/scenarios/scenario_01.json` → auto_approved |
