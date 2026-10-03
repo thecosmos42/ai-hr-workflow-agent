@@ -75,3 +75,5 @@ change the threshold silently. (If the user prefers OpenAI embeddings, that is a
 (agent: append new entries as `D1`, `D2`, â€¦ with date, step, what, why)
 
 **D1 â€” Step 1, 2026-10-04: Python 3.10 instead of 3.11+.** Target system has Python 3.10.11; spec requires 3.11+. Downgraded pyproject.toml `requires-python` to ">=3.10" to proceed. All Pydantic v2 schemas and Python 3.10-compatible syntax in use; no impact on functionality.
+
+**D2 — Step 2/3, 2026-10-04: \dobe_cc\ added to the \software_engineer\ access matrix.** Plan §6.1 matrix is FIXED and lacks \dobe_cc\, but §5.2 check order would then return \UNKNOWN_SYSTEM\ for it, making scenario 22 (\LICENSE_POOL_EXHAUSTED\ -> TOOL_FAILURE -> revise, P1) unreachable. Minimal fix: list it for \software_engineer\ only. Other roles get \ROLE_NOT_PERMITTED\. Also added \load_policy_tables()\ to \config/settings.py\ (cached YAML loader used by validators and tools).

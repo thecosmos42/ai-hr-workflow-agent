@@ -1,8 +1,10 @@
 """Configuration and settings."""
 import os
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 
+import yaml
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -42,6 +44,16 @@ def get_settings() -> Settings:
             anthropic_api_key=os.getenv("ANTHROPIC_API_KEY", "")
         )
     return get_settings._instance
+
+
+POLICY_TABLES_PATH = Path(__file__).parent / "policy_tables.yaml"
+
+
+@lru_cache(maxsize=1)
+def load_policy_tables() -> dict:
+    """Load config/policy_tables.yaml (cached). Treat the result as read-only."""
+    with open(POLICY_TABLES_PATH, encoding="utf-8") as f:
+        return yaml.safe_load(f)
 
 
 def get_today() -> date:

@@ -5,15 +5,14 @@ Real API would reject invalid access; validator is the policy backstop.
 """
 import sqlite3
 
-import yaml
-
 from onboard_pilot.schemas import ToolResult
 
 
-def _load_access_matrix() -> dict:
-    """Load access matrix from policy_tables.yaml."""
-    with open("config/policy_tables.yaml") as f:
-        policy = yaml.safe_load(f)
+def _load_access_matrix() -> tuple[dict, list]:
+    """Load access matrix and privileged systems from policy_tables.yaml."""
+    from config.settings import load_policy_tables
+
+    policy = load_policy_tables()
     return policy["access_matrix"], policy["privileged_systems"]
 
 
