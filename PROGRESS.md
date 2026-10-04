@@ -1,6 +1,6 @@
 # PROGRESS
 
-Current step: **10** (validating)
+Current step: **10** (complete)
 Rule: do not start step N+1 until step N is ticked. Tick only after the acceptance command was actually run and passed.
 
 | # | Step | Done | Acceptance command(s) |
@@ -14,7 +14,8 @@ Rule: do not start step N+1 until step N is ticked. Tick only after the acceptan
 | 7 | Escalation + interrupt + resume | [x] | scenario_16 → escalated; `--resume` approve → finalized; survives restart |
 | 8 | Streamlit 3 pages | [x] | Cases page (metrics, table), Trace page (self-correction visibility), Approval Queue (escalation workflow) |
 | 9 | 25 scenarios + run_evals | [x] | `python evals/run_evals.py --auto-approve-escalations` → precision ≥ 0.85, hard-case recall = 1.0 |
-| 10 | README + GIF + cleanup | [ ] | fresh clone → `.env` → init_all → run scenario_01 works per README |
+| 10 | README + GIF + cleanup | [x] | fresh clone → `.env` → init_all → run scenario_01 works per README |
 
 ## Notes / blockers
 - Step 9: precision 0.895, escalation recall 1.0, hard-case recall 1.0. scenario_09/12 escalate after max retries (LLM variance). Details in STEP_9_PROBLEMS_AND_FIXES.md.
+- Step 10: README written; no GIF (see DEVIATIONS D6). Fresh clone caught undeclared langgraph-checkpoint-sqlite dependency, now in pyproject. Fresh clone + init_all + scenario_01 + 111 tests pass.
