@@ -23,7 +23,7 @@ st.title("Onboarding Cases")
 graph = get_graph()
 
 # Fetch all cases with retry count from audit log
-conn = get_connection(get_settings().onboard_db_path)
+conn = get_connection(get_settings().db_path)
 cases_raw = conn.execute(
     "SELECT case_id, status, created_at FROM cases ORDER BY created_at DESC"
 ).fetchall()
@@ -36,7 +36,16 @@ for case_id, status, created_at in cases_raw:
         "SELECT COALESCE(MAX(attempt), 0) FROM audit_log WHERE case_id = ?",
         (case_id,)
     ).fetchone()[0]
-    cases.append((case_id, case_id, "N/A", status, retry_count, created_at))
+    snap = graph.get_state({"configurable": {"thread_id": case_id}}).values
+    form = snap.get("form")
+    cases.append((
+        case_id,
+        getattr(form, "full_name", "N/A"),
+        getattr(form, "role", "N/A"),
+        status,
+        retry_count,
+        created_at,
+    ))
 
 conn.close()
 
@@ -46,7 +55,7 @@ auto_approved = sum(1 for c in cases if c[3] == "auto_approved")
 auto_approved_pct = (auto_approved / total_cases * 100) if total_cases else 0
 
 # Calculate costs
-conn = get_connection()
+conn = get_connection(get_settings().db_path)
 costs = {}
 for case_id, _, _, _, _, _ in cases:
     cost = conn.execute(

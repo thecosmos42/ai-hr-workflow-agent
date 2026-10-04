@@ -14,7 +14,7 @@ st.set_page_config(page_title="Case Trace", layout="wide")
 st.title("Case Trace")
 
 # Fetch all cases for dropdown
-conn = get_connection(get_settings().onboard_db_path)
+conn = get_connection(get_settings().db_path)
 cases = conn.execute(
     "SELECT case_id, case_id as name FROM cases ORDER BY created_at DESC"
 ).fetchall()
@@ -31,7 +31,7 @@ selected_idx = st.selectbox("Select case", range(len(cases)), format_func=lambda
 selected_case_id = case_ids[selected_idx]
 
 # Fetch audit log for selected case
-conn = get_connection(get_settings().onboard_db_path)
+conn = get_connection(get_settings().db_path)
 audit_entries = conn.execute(
     """
     SELECT node, attempt, latency_ms, tokens_in, tokens_out, cost_eur, summary, payload_json
@@ -97,10 +97,8 @@ for i, (node, attempt, latency_ms, in_tokens, out_tokens, cost, summary, payload
                 # Tool results
                 if "tool_results" in payload and payload["tool_results"]:
                     st.write("*Tool Results:*")
-                    for tool_name, results in payload["tool_results"].items():
-                        st.write(f"  **{tool_name}:**")
-                        for result in results:
-                            status = "✓" if result.get("ok") else "✗"
-                            st.write(f"    {status} {result.get('error_code', 'ok')}: {result.get('error_message', result.get('data', ''))}")
-            except Exception as e:
+                    for result in payload["tool_results"]:
+                        status = "OK" if result.get("ok") else "FAIL"
+                        detail = result.get("error_code") or result.get("data", "")
+                        st.write(f"  - **{result.get('tool')}** [{status}]: {detail}")            except Exception as e:
                 st.error(f"Error parsing payload: {e}")
