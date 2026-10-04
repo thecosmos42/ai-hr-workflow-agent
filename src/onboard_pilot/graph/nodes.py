@@ -64,6 +64,30 @@ PARSE_RETRY_PROMPT = (
     "Return the complete OnboardingPlan again, matching the schema exactly."
 )
 
+REVISE_SYSTEM_PROMPT = """You are an HR onboarding planner reviewing and correcting a plan \
+to resolve policy violations.
+
+To resolve BUDGET_EXCEEDED violations:
+1. Calculate total cost including all equipment items.
+2. If the laptop + one monitor already exceed or nearly exhaust the budget, remove all other \
+items (peripherals, extra monitors, etc.).
+3. If a secondary/extra monitor is requested, prioritize removing it to save cost.
+4. Only if necessary, substitute the requested laptop for a cheaper alternative.
+5. Minimize the number of removed items; prioritize cost savings per item.
+
+Modify ONLY the parts of the plan needed to resolve the violations listed below.
+Keep unchanged any plan details that do not contribute to a violation.
+Return the full corrected OnboardingPlan."""
+
+REVISE_USER_TEMPLATE = """Current plan:
+{current_plan_json}
+
+Policy violations to fix:
+{violations_json}
+
+Instruction: Fix these violations by modifying equipment only. Remove or replace equipment items \
+that exceed the budget limit. Return the complete corrected OnboardingPlan."""
+
 
 def _conn():
     return db.get_connection(get_settings().db_path)
@@ -249,14 +273,72 @@ def validate(state: OnboardingState) -> dict:
     return {"violations": violations}
 
 
+@log_node("revise")
 def revise(state: OnboardingState) -> dict:
-    """Implemented in step 6."""
-    raise NotImplementedError("revise node is implemented in build step 6")
+    """Re-plan to resolve violations. Increment retry_count."""
+    if state.plan is None or not state.violations:
+        raise RuntimeError("revise called without plan or violations")
+    
+    old_plan = state.plan.model_dump(mode="json")
+    
+    # Format violations for the LLM
+    violations_json = json.dumps(
+        [v.model_dump() for v in state.violations],
+        indent=2
+    )
+    
+    # Build revise prompt
+    current_plan_json = json.dumps(old_plan, indent=2)
+    user_prompt = REVISE_USER_TEMPLATE.format(
+        current_plan_json=current_plan_json,
+        violations_json=violations_json
+    )
+    
+    # Call LLM with structured output, retry once on parse failure
+    parsed, errors = generate_plan(REVISE_SYSTEM_PROMPT, user_prompt)
+    if parsed is not None:
+        parsed = parsed.model_copy(update={"case_id": state.case_id})
+    
+    # Prepare audit payload with old/new plan diff
+    new_plan_json = parsed.model_dump(mode="json") if parsed else None
+    set_summary(
+        f"revised plan (attempt {state.retry_count + 1}): "
+        f"{len(parsed.equipment) if parsed else 0} equipment, "
+        f"{len(parsed.access_requests) if parsed else 0} access"
+        if parsed
+        else f"revised plan parse failure (attempt {state.retry_count + 1})"
+    )
+    set_payload({
+        "old_plan": old_plan,
+        "new_plan": new_plan_json,
+        "parse_errors": errors,
+        "violations_resolved": parsed is not None
+    })
+    
+    return {
+        "plan": parsed,
+        "retry_count": state.retry_count + 1
+    }
 
 
+@log_node("escalate")
 def escalate(state: OnboardingState) -> dict:
-    """Implemented in step 7."""
-    raise NotImplementedError("escalate node is implemented in build step 7")
+    """Route to human approval. Stub for step 7 — currently just sets status."""
+    from onboard_pilot.graph.routing import build_escalation_reason
+    reason = build_escalation_reason(state)
+    conn = _conn()
+    try:
+        conn.execute(
+            "UPDATE cases SET escalation_reason = ? WHERE case_id = ?",
+            (reason, state.case_id)
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    set_summary(f"escalated: {reason[:80]}..." if len(reason) > 80 else f"escalated: {reason}")
+    set_payload({"escalation_reason": reason, "violations": [v.model_dump() for v in state.violations]})
+    # Step 7 will add interrupt() here to pause and wait for human decision
+    return {"status": "escalated", "escalation_reason": reason}
 
 
 @log_node("finalize")

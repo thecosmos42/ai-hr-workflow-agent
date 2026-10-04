@@ -1,0 +1,15 @@
+﻿{
+  "case_id": "case-0009",
+  "full_name": "Priya Sharma",
+  "email": "priya.sharma@example.com",
+  "role": "data_analyst",
+  "level": "junior",
+  "department": "data",
+  "start_date": "2026-10-20",
+  "manager_email": "tom.bakker@corp.example",
+  "location": "eindhoven_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": ["Bose QC45 Headphones"]
+}
