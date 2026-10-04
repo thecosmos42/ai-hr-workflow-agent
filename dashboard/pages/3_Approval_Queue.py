@@ -8,7 +8,7 @@ from langgraph.types import Command
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from config.settings import get_settings
 from onboard_pilot.db import get_connection
-from app import get_graph
+from app import get_case_values, get_graph
 
 
 def resume_case(graph, case_id: str, decision: str, comment: str) -> None:
@@ -47,7 +47,7 @@ if not escalated:
 st.warning(f"{len(escalated)} case(s) awaiting approval")
 
 for case_id, status, reason, created in escalated:
-    snap = graph.get_state({"configurable": {"thread_id": case_id}}).values
+    snap = get_case_values(graph, case_id)
     form = snap.get("form")
     violations = snap.get("violations") or []
 

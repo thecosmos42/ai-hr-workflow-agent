@@ -17,5 +17,15 @@ def get_graph():
     return build_graph(checkpointer=checkpointer)
 
 
+def get_case_values(graph, case_id: str) -> dict:
+    """Read checkpointed state values without re-validating them against the schema.
+
+    graph.get_state() coerces values into OnboardingState, which fails when Streamlit
+    reloads onboard_pilot.schemas and the cached graph holds the older class objects.
+    """
+    tup = graph.checkpointer.get_tuple({"configurable": {"thread_id": case_id}})
+    return dict(tup.checkpoint["channel_values"]) if tup else {}
+
+
 if __name__ == "__main__":
     st.switch_page("pages/1_Cases.py")

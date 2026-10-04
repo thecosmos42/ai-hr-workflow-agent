@@ -13,7 +13,7 @@ from onboard_pilot.schemas import IntakeForm
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from app import get_graph
+from app import get_case_values, get_graph
 
 
 st.set_page_config(page_title="Cases", layout="wide")
@@ -36,7 +36,7 @@ for case_id, status, created_at in cases_raw:
         "SELECT COALESCE(MAX(attempt), 0) FROM audit_log WHERE case_id = ?",
         (case_id,)
     ).fetchone()[0]
-    snap = graph.get_state({"configurable": {"thread_id": case_id}}).values
+    snap = get_case_values(graph, case_id)
     form = snap.get("form")
     cases.append((
         case_id,
