@@ -8,7 +8,6 @@ from langgraph.types import Command
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from config.settings import get_settings
 from onboard_pilot.db import get_connection
-from onboard_pilot.schemas import OnboardingState
 from app import get_graph
 
 
@@ -19,8 +18,7 @@ def resume_case(graph, case_id: str, decision: str, comment: str) -> None:
         {"configurable": {"thread_id": case_id}},
     )
     response.pop("__interrupt__", None)
-    final = OnboardingState.model_validate(response)
-    st.session_state["last_result"] = f"{case_id}: {final.status}"
+    st.session_state["last_result"] = f"{case_id}: {response.get('status')}"
 
 
 st.set_page_config(page_title="Approval Queue", layout="wide")
