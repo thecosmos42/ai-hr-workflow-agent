@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 .venv/
 .env
+.archify
 data/
 .pytest_cache/
 .ruff_cache/
@@ -11,3 +12,9 @@ data/
 .DS_Store
 dist/
 build/
+
+.github/
+
+.github/
+
+.github/
