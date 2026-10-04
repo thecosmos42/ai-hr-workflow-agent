@@ -1,6 +1,6 @@
 # PROGRESS
 
-Current step: **10**
+Current step: **10** (validating)
 Rule: do not start step N+1 until step N is ticked. Tick only after the acceptance command was actually run and passed.
 
 | # | Step | Done | Acceptance command(s) |
