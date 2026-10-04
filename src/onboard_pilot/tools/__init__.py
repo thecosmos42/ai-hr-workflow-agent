@@ -3,7 +3,7 @@
 from onboard_pilot.tools.equipment_catalog import get_item, search_catalog
 from onboard_pilot.tools.hr_db import check_duplicate, create_employee, lookup_manager
 from onboard_pilot.tools.it_provisioner import request_account
-from onboard_pilot.tools.policy_rag import build_rag_index, query_policy
+from onboard_pilot.tools.policy_rag import build_index, query_policy
 from onboard_pilot.tools.scheduler import commit_events
 
 __all__ = [
@@ -14,6 +14,6 @@ __all__ = [
     "search_catalog",
     "get_item",
     "query_policy",
-    "build_rag_index",
+    "build_index",
     "commit_events",
 ]

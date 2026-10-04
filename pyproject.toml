@@ -37,6 +37,9 @@ onboard_pilot = "src/onboard_pilot"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
+markers = [
+    "integration: needs the local embedding model / network (deselect with -m 'not integration')",
+]
 
 [tool.ruff]
 line-length = 100

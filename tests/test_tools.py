@@ -359,17 +359,3 @@ class TestScheduler:
         row = cursor.fetchone()
         assert row is not None
         assert "2 systems" in row["body"] or "2 items" in row["body"]  # Should mention access/equipment
-
-
-class TestPolicyRag:
-    """Tests for policy_rag tools (stubs for step 02)."""
-
-    def test_query_policy_stub(self):
-        """Test that query_policy returns stub result."""
-        from onboard_pilot.tools.policy_rag import query_policy
-
-        result = query_policy("What is the remote allowance?")
-        assert result.ok is True
-        assert result.tool == "query_policy"
-        # Stub returns empty chunks
-        assert result.data["chunks"] == []

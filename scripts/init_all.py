@@ -52,8 +52,11 @@ def main():
         logger.error(f"Expected >= 20 catalog items, got {catalog_count}")
         return False
 
-    # 4. RAG index (placeholder for now, will be implemented in step 4)
-    logger.info("RAG index initialization deferred to step 4")
+    # 4. RAG index (drop and recreate; needs the local embedding model, downloaded on first run)
+    from onboard_pilot.tools.policy_rag import build_index
+
+    chunk_count = build_index()
+    logger.info(f"Built policy RAG index with {chunk_count} chunks")
 
     logger.info("✓ Initialization complete")
     return True
