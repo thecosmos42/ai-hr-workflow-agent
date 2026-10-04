@@ -1,4 +1,4 @@
-# onboard-pilot
+# AI HR Workflow Agent
 
 An HR new-hire onboarding agent built with LangGraph. It takes an intake form, drafts an onboarding plan
 (access, equipment, schedule, tasks) with an LLM, checks that plan with **deterministic Python validators**,
