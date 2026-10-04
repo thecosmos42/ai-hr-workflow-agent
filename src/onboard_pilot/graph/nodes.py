@@ -364,7 +364,7 @@ def escalate(state: OnboardingState) -> dict:
         conn = _conn()
         try:
             conn.execute(
-                "UPDATE cases SET escalation_reason = ? WHERE case_id = ?",
+                "UPDATE cases SET status = 'escalated', escalation_reason = ? WHERE case_id = ?",
                 (reason, state.case_id)
             )
             conn.commit()
@@ -381,6 +381,8 @@ def escalate(state: OnboardingState) -> dict:
                 "plan": state.plan.model_dump() if state.plan else None,
             }
         )
+        # Return updated state (will be saved to checkpoint before interrupt)
+        return {"status": "escalated"}
 
 
 @log_node("finalize")

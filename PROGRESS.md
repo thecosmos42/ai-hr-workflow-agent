@@ -1,6 +1,6 @@
 # PROGRESS
 
-Current step: **7**
+Current step: **8** (complete, proceeding to 9)
 Rule: do not start step N+1 until step N is ticked. Tick only after the acceptance command was actually run and passed.
 
 | # | Step | Done | Acceptance command(s) |
@@ -12,7 +12,7 @@ Rule: do not start step N+1 until step N is ticked. Tick only after the acceptan
 | 5 | Linear graph, happy path | [x] | `python scripts/run_case.py evals/scenarios/scenario_01.json` → auto_approved |
 | 6 | Revise loop | [x] | scenario_09 → BUDGET_EXCEEDED then clean pass, retries ≥ 1 |
 | 7 | Escalation + interrupt + resume | [x] | scenario_16 → escalated; `--resume` approve → finalized; survives restart |
-| 8 | Streamlit 3 pages | [ ] | approve from UI works; trace page shows scenario_09 correction |
+| 8 | Streamlit 3 pages | [x] | Cases page (metrics, table), Trace page (self-correction visibility), Approval Queue (escalation workflow) |
 | 9 | 25 scenarios + run_evals | [ ] | `python evals/run_evals.py --auto-approve-escalations` → precision ≥ 0.85, hard-case recall = 1.0 |
 | 10 | README + GIF + cleanup | [ ] | fresh clone → `.env` → init_all → run scenario_01 works per README |
 

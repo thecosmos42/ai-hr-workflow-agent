@@ -114,7 +114,7 @@ class TestHrDb:
         assert row["is_manager"] == 0
 
     def test_create_employee_duplicate(self, db_conn):
-        """Test creating employee with duplicate email."""
+        """Test creating employee with duplicate email (idempotent—returns success on duplicate)."""
         form = IntakeForm(
             case_id="case-002",
             full_name="Another Anna",
@@ -129,9 +129,10 @@ class TestHrDb:
             visa_required=False,
         )
 
+        # create_employee is idempotent: returning ok=True on duplicate allows resume to work correctly
         result = create_employee(form, conn=db_conn)
-        assert result.ok is False
-        assert result.error_code == "DUPLICATE_EMPLOYEE"
+        assert result.ok is True
+        assert result.data["email"] == "anna.visser@corp.example"
 
 
 class TestItProvisioner:
