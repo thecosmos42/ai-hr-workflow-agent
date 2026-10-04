@@ -100,5 +100,6 @@ for i, (node, attempt, latency_ms, in_tokens, out_tokens, cost, summary, payload
                     for result in payload["tool_results"]:
                         status = "OK" if result.get("ok") else "FAIL"
                         detail = result.get("error_code") or result.get("data", "")
-                        st.write(f"  - **{result.get('tool')}** [{status}]: {detail}")            except Exception as e:
+                        st.write(f"  - **{result.get('tool')}** [{status}]: {detail}")
+            except Exception as e:
                 st.error(f"Error parsing payload: {e}")
