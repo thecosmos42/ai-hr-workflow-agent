@@ -3,6 +3,8 @@ import json
 import logging
 from datetime import timedelta
 
+from langgraph.types import interrupt
+
 from config.settings import get_settings, get_today, load_policy_tables
 from onboard_pilot import db
 from onboard_pilot.audit.logger import log_node, record_usage, set_payload, set_summary
@@ -323,22 +325,62 @@ def revise(state: OnboardingState) -> dict:
 
 @log_node("escalate")
 def escalate(state: OnboardingState) -> dict:
-    """Route to human approval. Stub for step 7 — currently just sets status."""
+    """Route to human approval. Interrupts waiting for a human decision on first execution.
+    On resume, applies the decision passed via state.human_decision.
+    """
     from onboard_pilot.graph.routing import build_escalation_reason
-    reason = build_escalation_reason(state)
-    conn = _conn()
-    try:
-        conn.execute(
-            "UPDATE cases SET escalation_reason = ? WHERE case_id = ?",
-            (reason, state.case_id)
+    
+    # Check state first for human decision (passed on resume), then database for backwards compatibility
+    human_decision = state.human_decision
+    human_comment = state.human_comment
+    
+    if human_decision:
+        # On resume: apply human decision from state
+        logger.info(f"escalate resume: human_decision={human_decision}, human_comment={human_comment}")
+        if human_decision == "approve":
+            new_status = "approved_by_human"
+        elif human_decision == "reject":
+            new_status = "rejected_by_human"
+        else:
+            new_status = "escalated"
+        
+        logger.info(f"escalate setting status to {new_status}")
+        conn = _conn()
+        try:
+            conn.execute(
+                "UPDATE cases SET status = ?, human_decision = ?, human_comment = ? WHERE case_id = ?",
+                (new_status, human_decision, human_comment, state.case_id),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+        
+        set_summary(f"escalation resolved: {human_decision}")
+        logger.info(f"escalate returning status={new_status}")
+        return {"status": new_status}
+    else:
+        # Initial execution: pause for human input
+        reason = build_escalation_reason(state)
+        conn = _conn()
+        try:
+            conn.execute(
+                "UPDATE cases SET escalation_reason = ? WHERE case_id = ?",
+                (reason, state.case_id)
+            )
+            conn.commit()
+        finally:
+            conn.close()
+        set_summary(f"escalated: {reason[:80]}..." if len(reason) > 80 else f"escalated: {reason}")
+        set_payload({"escalation_reason": reason, "violations": [v.model_dump() for v in state.violations]})
+        
+        interrupt(
+            {
+                "case_id": state.case_id,
+                "escalation_reason": reason,
+                "violations": [v.model_dump() for v in state.violations],
+                "plan": state.plan.model_dump() if state.plan else None,
+            }
         )
-        conn.commit()
-    finally:
-        conn.close()
-    set_summary(f"escalated: {reason[:80]}..." if len(reason) > 80 else f"escalated: {reason}")
-    set_payload({"escalation_reason": reason, "violations": [v.model_dump() for v in state.violations]})
-    # Step 7 will add interrupt() here to pause and wait for human decision
-    return {"status": "escalated", "escalation_reason": reason}
 
 
 @log_node("finalize")
@@ -349,6 +391,13 @@ def finalize(state: OnboardingState) -> dict:
     outcome = "auto_approved" if state.status == "running" else state.status
     conn = _conn()
     try:
+        # Check if already finalized (idempotent: skip if finalized_at is set)
+        cursor = conn.cursor()
+        cursor.execute("SELECT finalized_at FROM cases WHERE case_id = ?", (state.case_id,))
+        row = cursor.fetchone()
+        if row and row[0]:
+            # Already finalized; return without re-running business logic
+            return {"status": state.status}
         created = create_employee(state.form, conn=conn, commit=False)
         if not created.ok:
             raise RuntimeError(f"create_employee failed: {created.error_code}")

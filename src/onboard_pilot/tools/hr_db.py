@@ -110,6 +110,20 @@ def create_employee(
 
     try:
         cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM employees WHERE email = ?", (form.email,))
+        existing = cursor.fetchone()
+        if existing:
+            # Employee already exists; idempotent success (finalize may be called twice)
+            return ToolResult(
+                tool="create_employee",
+                ok=True,
+                data={
+                    "email": form.email,
+                    "full_name": form.full_name,
+                    "case_id": form.case_id,
+                },
+            )
+        
         cursor.execute(
             """
             INSERT INTO employees (email, full_name, is_manager)

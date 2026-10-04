@@ -137,3 +137,4 @@ class OnboardingState(BaseModel):
     human_comment: str | None = None
     rag_min_score: float | None = None
     audit_events: list[dict] = Field(default_factory=list)
+    escalation_resumed: bool = False  # Set to True to signal that escalate node should apply pending decision

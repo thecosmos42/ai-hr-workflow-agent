@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0016",
+  "full_name": "Marcus Visser",
+  "email": "marcus.visser@example.com",
+  "role": "data_analyst",
+  "level": "medior",
+  "department": "data",
+  "start_date": "2026-10-19",
+  "manager_email": "tom.bakker@corp.example",
+  "location": "eindhoven_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": ["aws_prod access"]
+}
