@@ -473,7 +473,9 @@ def test_tool_failure_violation_for_license_pool():
     assert v[0].field_path == "tool_results[0]"
 
 
-@pytest.mark.parametrize("code", ["UNKNOWN_SYSTEM", "ROLE_NOT_PERMITTED"])
+@pytest.mark.parametrize(
+    "code", ["UNKNOWN_SYSTEM", "ROLE_NOT_PERMITTED", "UNKNOWN_CATALOG_ITEM"]
+)
 def test_tool_failure_skips_codes_covered_by_validators(code):
     results = [ToolResult(tool="request_account", ok=False, error_code=code)]
     assert violations_from_tool_results(results) == []

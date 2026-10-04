@@ -7,7 +7,7 @@ from onboard_pilot.schemas import OnboardingPlan, ToolResult
 
 def commit_events(
     plan: OnboardingPlan, case_id: str, employee_email: str,
-    conn: sqlite3.Connection | None = None
+    conn: sqlite3.Connection | None = None, commit: bool = True
 ) -> ToolResult:
     """Commit scheduled events to calendar and send onboarding email.
     
@@ -21,6 +21,7 @@ def commit_events(
         case_id: Case ID
         employee_email: Employee email address
         conn: Optional SQLite connection (for testing)
+        commit: Set False to leave the transaction open for the caller (finalize)
     
     Returns:
         ToolResult with ok=True if committed successfully
@@ -84,7 +85,8 @@ Please confirm receipt of this email.
             (case_id, employee_email, email_subject, email_body),
         )
 
-        conn.commit()
+        if commit:
+            conn.commit()
 
         return ToolResult(
             tool="commit_events",

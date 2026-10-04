@@ -17,8 +17,12 @@ from onboard_pilot.schemas import (
 )
 from onboard_pilot.validation.violations import SEVERITY, ViolationCode
 
-# Tool errors already covered by ACCESS_NOT_IN_MATRIX / PRIVILEGED_ACCESS_REQUEST (P1).
-_TOOL_ERRORS_COVERED_BY_VALIDATORS = {"UNKNOWN_SYSTEM", "ROLE_NOT_PERMITTED"}
+# Tool errors already reported by validators (P1; UNKNOWN_CATALOG_ITEM added, see D4).
+_TOOL_ERRORS_COVERED_BY_VALIDATORS = {
+    "UNKNOWN_SYSTEM",
+    "ROLE_NOT_PERMITTED",
+    "UNKNOWN_CATALOG_ITEM",
+}
 
 
 def _violation(
@@ -310,7 +314,8 @@ def run_all_validators(
 def violations_from_tool_results(tool_results: list[ToolResult]) -> list[PolicyViolation]:
     """Turn failed tool results into soft TOOL_FAILURE violations (DEVIATIONS P1).
 
-    UNKNOWN_SYSTEM and ROLE_NOT_PERMITTED are skipped: validators already report them.
+    UNKNOWN_SYSTEM, ROLE_NOT_PERMITTED and UNKNOWN_CATALOG_ITEM are skipped: validators
+    already report them.
     """
     out: list[PolicyViolation] = []
     for i, result in enumerate(tool_results):

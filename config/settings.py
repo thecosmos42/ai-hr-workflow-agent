@@ -1,5 +1,4 @@
 """Configuration and settings."""
-import os
 from datetime import date
 from functools import lru_cache
 from pathlib import Path
@@ -12,7 +11,7 @@ class Settings(BaseSettings):
     """Application settings."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(Path(__file__).parent.parent / ".env"),
         env_file_encoding="utf-8",
         case_sensitive=False,
     )
@@ -40,9 +39,7 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Get or create settings singleton."""
     if not hasattr(get_settings, "_instance"):
-        get_settings._instance = Settings(
-            anthropic_api_key=os.getenv("ANTHROPIC_API_KEY", "")
-        )
+        get_settings._instance = Settings()
     return get_settings._instance
 
 
@@ -62,15 +59,3 @@ def get_today() -> date:
     if settings.today_override:
         return date.fromisoformat(settings.today_override)
     return date.today()
-
-
-# Cost table for token pricing in EUR (DEVIATIONS P12)
-# claude-haiku-4-5-20251001 pricing (verified ~2026-10):
-# ~$1 per 1M input tokens, ~$5 per 1M output tokens
-# Assumed USD→EUR rate: 1 USD = 0.92 EUR (as of 2026-10)
-COST_TABLE = {
-    "claude-haiku-4-5-20251001": (
-        0.92 / 1_000_000,  # input cost in EUR per token
-        4.60 / 1_000_000,  # output cost in EUR per token
-    )
-}

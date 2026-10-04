@@ -87,12 +87,15 @@ def check_duplicate(email: str, conn: sqlite3.Connection | None = None) -> ToolR
             conn.close()
 
 
-def create_employee(form: IntakeForm, conn: sqlite3.Connection | None = None) -> ToolResult:
+def create_employee(
+    form: IntakeForm, conn: sqlite3.Connection | None = None, commit: bool = True
+) -> ToolResult:
     """Create a new employee record. Called only from finalize node.
     
     Args:
         form: IntakeForm with employee details
         conn: Optional SQLite connection (for testing)
+        commit: Set False to leave the transaction open for the caller (finalize)
     
     Returns:
         ToolResult with ok=True if created, ok=False on errors
@@ -114,7 +117,8 @@ def create_employee(form: IntakeForm, conn: sqlite3.Connection | None = None) ->
             """,
             (form.email, form.full_name),
         )
-        conn.commit()
+        if commit:
+            conn.commit()
         return ToolResult(
             tool="create_employee",
             ok=True,
