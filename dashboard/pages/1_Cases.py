@@ -23,7 +23,7 @@ st.title("Onboarding Cases")
 graph = get_graph()
 
 # Fetch all cases with retry count from audit log
-conn = get_connection()
+conn = get_connection(get_settings().onboard_db_path)
 cases_raw = conn.execute(
     "SELECT case_id, status, created_at FROM cases ORDER BY created_at DESC"
 ).fetchall()

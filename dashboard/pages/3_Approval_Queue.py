@@ -19,7 +19,7 @@ st.title("Approval Queue")
 graph = get_graph()
 
 # Fetch escalated cases
-conn = get_connection()
+conn = get_connection(get_settings().onboard_db_path)
 escalated = conn.execute(
     """
     SELECT case_id, full_name, role, status, escalation_reason, created_at
@@ -51,7 +51,7 @@ for case_id, full_name, role, status, reason, created in escalated:
         st.info(reason)
         
         # Fetch and show violations
-        conn = get_connection()
+        conn = get_connection(get_settings().onboard_db_path)
         audit_entry = conn.execute(
             "SELECT payload FROM audit_log WHERE case_id = ? AND node = 'escalate' LIMIT 1",
             (case_id,)

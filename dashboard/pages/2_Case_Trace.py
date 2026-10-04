@@ -14,7 +14,7 @@ st.set_page_config(page_title="Case Trace", layout="wide")
 st.title("Case Trace")
 
 # Fetch all cases for dropdown
-conn = get_connection()
+conn = get_connection(get_settings().onboard_db_path)
 cases = conn.execute(
     "SELECT case_id, case_id as name FROM cases ORDER BY created_at DESC"
 ).fetchall()
@@ -31,7 +31,7 @@ selected_idx = st.selectbox("Select case", range(len(cases)), format_func=lambda
 selected_case_id = case_ids[selected_idx]
 
 # Fetch audit log for selected case
-conn = get_connection()
+conn = get_connection(get_settings().onboard_db_path)
 audit_entries = conn.execute(
     """
     SELECT node, attempt, latency_ms, tokens_in, tokens_out, cost_eur, summary, payload_json
