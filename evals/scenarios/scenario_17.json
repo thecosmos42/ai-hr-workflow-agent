@@ -1,0 +1,17 @@
+{
+    "case_id":  "case-0017",
+    "full_name":  "Zara Malik",
+    "email":  "zara.malik_17@example.com",
+    "role":  "data_analyst",
+    "level":  "junior",
+    "department":  "data",
+    "start_date":  "2026-10-04",
+    "manager_email":  "anna.visser@corp.example",
+    "location":  "eindhoven_office",
+    "contract_type":  "permanent",
+    "visa_required":  false,
+    "accessibility_needs":  null,
+    "requested_extras":  [
+
+                         ]
+}

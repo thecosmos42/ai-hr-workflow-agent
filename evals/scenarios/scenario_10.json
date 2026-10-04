@@ -1,0 +1,18 @@
+{
+  "case_id": "case-0010",
+  "full_name": "Thomas Weber",
+  "email": "thomas.weber_10@example.com",
+  "role": "data_analyst",
+  "level": "junior",
+  "department": "data",
+  "start_date": "2026-10-20",
+  "manager_email": "anna.visser@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": [
+    "High-end gaming laptop",
+    "40-inch monitor"
+  ]
+}

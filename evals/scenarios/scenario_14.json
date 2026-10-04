@@ -1,0 +1,17 @@
+{
+    "case_id":  "case-0014",
+    "full_name":  "Roland Fischer",
+    "email":  "roland.fischer_14@example.com",
+    "role":  "sales_rep",
+    "level":  "medior",
+    "department":  "sales",
+    "start_date":  "2026-10-20",
+    "manager_email":  "lisa.smit@corp.example",
+    "location":  "eindhoven_office",
+    "contract_type":  "permanent",
+    "visa_required":  false,
+    "accessibility_needs":  null,
+    "requested_extras":  [
+                             "vpn access"
+                         ]
+}

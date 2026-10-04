@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0006",
+  "full_name": "Diego Morales",
+  "email": "diego.morales_6@example.com",
+  "role": "sales_rep",
+  "level": "junior",
+  "department": "sales",
+  "start_date": "2026-10-21",
+  "manager_email": "mark.devries@corp.example",
+  "location": "remote_nl",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

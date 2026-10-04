@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0004",
+  "full_name": "James Chen",
+  "email": "james.chen_4@example.com",
+  "role": "finance_officer",
+  "level": "medior",
+  "department": "finance",
+  "start_date": "2026-10-22",
+  "manager_email": "anna.visser@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

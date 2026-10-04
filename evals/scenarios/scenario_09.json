@@ -1,15 +1,19 @@
-﻿{
+{
   "case_id": "case-0009",
-  "full_name": "Priya Sharma",
-  "email": "priya.sharma@example.com",
-  "role": "data_analyst",
+  "full_name": "Laura Hoffmann",
+  "email": "laura.hoffmann_9@example.com",
+  "role": "software_engineer",
   "level": "junior",
-  "department": "data",
-  "start_date": "2026-10-20",
+  "department": "engineering",
+  "start_date": "2026-10-19",
   "manager_email": "tom.bakker@corp.example",
   "location": "eindhoven_office",
   "contract_type": "permanent",
   "visa_required": false,
   "accessibility_needs": null,
-  "requested_extras": ["Bose QC45 Headphones"]
+  "requested_extras": [
+    "MacBook Pro 16-inch",
+    "two 4K monitors",
+    "Bose headset"
+  ]
 }

@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0023",
+  "full_name": "Anna Duplicate",
+  "email": "anna.visser@corp.example",
+  "role": "software_engineer",
+  "level": "junior",
+  "department": "engineering",
+  "start_date": "2026-10-20",
+  "manager_email": "anna.visser@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

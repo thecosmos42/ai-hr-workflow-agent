@@ -1,0 +1,17 @@
+{
+    "case_id":  "case-0021",
+    "full_name":  "Patrick O\u0027Brien",
+    "email":  "patrick.o\u0027brien_21@example.com",
+    "role":  "software_engineer",
+    "level":  "junior",
+    "department":  "engineering",
+    "start_date":  "2026-10-23",
+    "manager_email":  "mark.devries@corp.example",
+    "location":  "eindhoven_office",
+    "contract_type":  "contractor",
+    "visa_required":  false,
+    "accessibility_needs":  null,
+    "requested_extras":  [
+                             "aws_dev"
+                         ]
+}

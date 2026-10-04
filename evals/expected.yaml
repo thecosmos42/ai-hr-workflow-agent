@@ -1,0 +1,152 @@
+# Expected outcomes for 25 scenarios
+
+scenario_01:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Eva de Boer - data_analyst junior"
+
+scenario_02:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Marcus Johnson - software_engineer medior"
+
+scenario_03:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Elena Rodriguez - product_manager senior"
+
+scenario_04:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "James Chen - finance_officer medior"
+
+scenario_05:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Sophia Laurent - hr_coordinator junior"
+
+scenario_06:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Diego Morales - sales_rep junior"
+
+scenario_07:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Victoria Schmidt - engineering_manager lead"
+
+scenario_08:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Oliver Kim - data_analyst medior"
+
+scenario_09:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Laura Hoffmann - software_engineer junior"
+
+scenario_10:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Thomas Weber - data_analyst junior"
+
+scenario_11:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Natasha Petrov - product_manager medior"
+
+scenario_12:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Carlos Santos - software_engineer medior"
+
+scenario_13:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Isabelle Fontaine - finance_officer junior"
+
+scenario_14:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Roland Fischer - sales_rep medior"
+
+scenario_15:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Yuki Tanaka - hr_coordinator medior"
+
+scenario_16:
+  expected_outcome: escalated
+  expected_hard_codes: ['PRIVILEGED_ACCESS_REQUEST']
+  expected_min_retries: 0
+  notes: "Amir Hassan - software_engineer medior"
+
+scenario_17:
+  expected_outcome: escalated
+  expected_hard_codes: ['START_DATE_TOO_SOON']
+  expected_min_retries: 0
+  notes: "Zara Malik - data_analyst junior"
+
+scenario_18:
+  expected_outcome: escalated
+  expected_hard_codes: ['MANAGER_NOT_FOUND']
+  expected_min_retries: 0
+  notes: "Benjamin Hoffmann - software_engineer senior"
+
+scenario_19:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Rajesh Kumar - software_engineer medior"
+
+scenario_20:
+  expected_outcome: escalated
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Claudia Meyer - data_analyst junior"
+
+scenario_21:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 0
+  notes: "Patrick O'Brien - software_engineer junior"
+
+scenario_22:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Amanda White - software_engineer junior"
+
+scenario_23:
+  expected_outcome: escalated
+  expected_hard_codes: ['DUPLICATE_EMPLOYEE']
+  expected_min_retries: 0
+  notes: "Anna Duplicate - software_engineer junior"
+
+scenario_24:
+  expected_outcome: auto_approved
+  expected_hard_codes: []
+  expected_min_retries: 1
+  notes: "Gregory Wells - product_manager junior"
+
+scenario_25:
+  expected_outcome: escalated
+  expected_hard_codes: ['MANAGER_NOT_FOUND', 'START_DATE_TOO_SOON', 'PRIVILEGED_ACCESS_REQUEST']
+  expected_min_retries: 0
+  notes: "Stress Test - software_engineer junior"
+

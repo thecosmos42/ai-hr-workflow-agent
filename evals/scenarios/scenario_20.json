@@ -1,15 +1,17 @@
 {
-  "case_id": "case-0001",
-  "full_name": "Eva de Boer",
-  "email": "eva.de.boer_1@example.com",
+  "case_id": "case-0020",
+  "full_name": "Claudia Meyer",
+  "email": "claudia.meyer_20@example.com",
   "role": "data_analyst",
   "level": "junior",
   "department": "data",
-  "start_date": "2026-10-19",
+  "start_date": "2026-10-22",
   "manager_email": "anna.visser@corp.example",
-  "location": "eindhoven_office",
+  "location": "remote_nl",
   "contract_type": "permanent",
   "visa_required": false,
   "accessibility_needs": null,
-  "requested_extras": []
+  "requested_extras": [
+    "4K monitor"
+  ]
 }

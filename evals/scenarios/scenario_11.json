@@ -1,0 +1,20 @@
+{
+    "case_id":  "case-0011",
+    "full_name":  "Natasha Petrov",
+    "email":  "natasha.petrov_11@example.com",
+    "role":  "engineering_manager",
+    "level":  "medior",
+    "department":  "engineering",
+    "start_date":  "2026-10-21",
+    "manager_email":  "sofia.jansen@corp.example",
+    "location":  "eindhoven_office",
+    "contract_type":  "permanent",
+    "visa_required":  false,
+    "accessibility_needs":  null,
+    "requested_extras":  [
+                             "standing desk",
+                             "premium monitor",
+                             "ergonomic chair",
+                             "extra keyboard"
+                         ]
+}

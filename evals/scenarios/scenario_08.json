@@ -1,0 +1,17 @@
+{
+    "case_id":  "case-0008",
+    "full_name":  "Oliver Kim",
+    "email":  "oliver.kim_8@example.com",
+    "role":  "data_analyst",
+    "level":  "medior",
+    "department":  "data",
+    "start_date":  "2026-10-24",
+    "manager_email":  "anna.visser@corp.example",
+    "location":  "eindhoven_office",
+    "contract_type":  "permanent",
+    "visa_required":  false,
+    "accessibility_needs":  null,
+    "requested_extras":  [
+
+                         ]
+}

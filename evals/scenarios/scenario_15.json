@@ -1,0 +1,17 @@
+{
+  "case_id": "case-0015",
+  "full_name": "Yuki Tanaka",
+  "email": "yuki.tanaka_15@example.com",
+  "role": "hr_coordinator",
+  "level": "medior",
+  "department": "hr",
+  "start_date": "2026-10-21",
+  "manager_email": "anna.visser@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": [
+    "jira access"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0007",
+  "full_name": "Victoria Schmidt",
+  "email": "victoria.schmidt_7@example.com",
+  "role": "engineering_manager",
+  "level": "lead",
+  "department": "engineering",
+  "start_date": "2026-10-23",
+  "manager_email": "lisa.smit@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

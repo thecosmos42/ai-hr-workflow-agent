@@ -57,9 +57,15 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="optional human comment when resuming",
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="enable debug logging",
+    )
     
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
+    log_level = logging.DEBUG if args.debug else logging.WARNING
+    logging.basicConfig(level=log_level, format="%(levelname)s %(name)s: %(message)s")
 
     settings = get_settings()
     graph = build_graph(make_checkpointer())
@@ -76,10 +82,7 @@ def main(argv: list[str] | None = None) -> int:
         # This allows the escalate node to see the decision and apply it
         final = OnboardingState.model_validate(
             graph.invoke(
-                {
-                    "human_decision": args.decision,
-                    "human_comment": args.comment,
-                },
+                Command(resume={"decision": args.decision, "comment": args.comment}),
                 config,
             )
         )
@@ -97,12 +100,11 @@ def main(argv: list[str] | None = None) -> int:
             if args.auto_approve_escalations:
                 # Resume with auto-approval by passing decision through state
                 response = graph.invoke(
-                    {
-                        "human_decision": "approve",
-                        "human_comment": "auto-approved in eval mode",
-                    },
+                    Command(resume={"decision": "approve", "comment": "auto-approved in eval mode"}),
                     config,
                 )
+                # Remove the special interrupt key if present
+                response.pop("__interrupt__", None)
                 final = OnboardingState.model_validate(response)
             else:
                 # For now, just print that it was interrupted

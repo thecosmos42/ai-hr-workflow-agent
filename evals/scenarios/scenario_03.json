@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0003",
+  "full_name": "Elena Rodriguez",
+  "email": "elena.rodriguez_3@example.com",
+  "role": "engineering_manager",
+  "level": "senior",
+  "department": "engineering",
+  "start_date": "2026-10-20",
+  "manager_email": "sofia.jansen@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

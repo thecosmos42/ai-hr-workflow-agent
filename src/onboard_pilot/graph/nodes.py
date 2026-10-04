@@ -325,65 +325,46 @@ def revise(state: OnboardingState) -> dict:
 
 @log_node("escalate")
 def escalate(state: OnboardingState) -> dict:
-    """Route to human approval. Interrupts waiting for a human decision on first execution.
-    On resume, applies the decision passed via state.human_decision.
+    """Pause for a human decision. The decision arrives as the return value of interrupt()
+    when the graph is resumed with Command(resume={"decision": ..., "comment": ...}).
     """
     from onboard_pilot.graph.routing import build_escalation_reason
-    
-    # Check state first for human decision (passed on resume), then database for backwards compatibility
-    human_decision = state.human_decision
-    human_comment = state.human_comment
-    
-    if human_decision:
-        # On resume: apply human decision from state
-        logger.info(f"escalate resume: human_decision={human_decision}, human_comment={human_comment}")
-        if human_decision == "approve":
-            new_status = "approved_by_human"
-        elif human_decision == "reject":
-            new_status = "rejected_by_human"
-        else:
-            new_status = "escalated"
-        
-        logger.info(f"escalate setting status to {new_status}")
-        conn = _conn()
-        try:
-            conn.execute(
-                "UPDATE cases SET status = ?, human_decision = ?, human_comment = ? WHERE case_id = ?",
-                (new_status, human_decision, human_comment, state.case_id),
-            )
-            conn.commit()
-        finally:
-            conn.close()
-        
-        set_summary(f"escalation resolved: {human_decision}")
-        logger.info(f"escalate returning status={new_status}")
-        return {"status": new_status}
-    else:
-        # Initial execution: pause for human input
-        reason = build_escalation_reason(state)
-        conn = _conn()
-        try:
-            conn.execute(
-                "UPDATE cases SET status = 'escalated', escalation_reason = ? WHERE case_id = ?",
-                (reason, state.case_id)
-            )
-            conn.commit()
-        finally:
-            conn.close()
-        set_summary(f"escalated: {reason[:80]}..." if len(reason) > 80 else f"escalated: {reason}")
-        set_payload({"escalation_reason": reason, "violations": [v.model_dump() for v in state.violations]})
-        
-        interrupt(
-            {
-                "case_id": state.case_id,
-                "escalation_reason": reason,
-                "violations": [v.model_dump() for v in state.violations],
-                "plan": state.plan.model_dump() if state.plan else None,
-            }
-        )
-        # Return updated state (will be saved to checkpoint before interrupt)
-        return {"status": "escalated"}
 
+    reason = build_escalation_reason(state)
+    conn = _conn()
+    try:
+        conn.execute(
+            "UPDATE cases SET status = 'escalated', escalation_reason = ? WHERE case_id = ?",
+            (reason, state.case_id),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    # The node re-runs from the top on resume; interrupt() then returns the resume value.
+    decision = interrupt(
+        {
+            "case_id": state.case_id,
+            "escalation_reason": reason,
+            "violations": [v.model_dump() for v in state.violations],
+            "plan": state.plan.model_dump(mode="json") if state.plan else None,
+        }
+    )
+    human_decision = decision.get("decision")
+    human_comment = decision.get("comment")
+    new_status = "approved_by_human" if human_decision == "approve" else "rejected_by_human"
+    conn = _conn()
+    try:
+        conn.execute(
+            "UPDATE cases SET status = ?, human_decision = ?, human_comment = ? WHERE case_id = ?",
+            (new_status, human_decision, human_comment, state.case_id),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    set_summary(f"escalation resolved: {human_decision}")
+    set_payload({"escalation_reason": reason, "decision": human_decision, "comment": human_comment})
+    return {"status": new_status, "human_decision": human_decision, "human_comment": human_comment}
 
 @log_node("finalize")
 def finalize(state: OnboardingState) -> dict:

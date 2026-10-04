@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0019",
+  "full_name": "Rajesh Kumar",
+  "email": "rajesh.kumar_19@example.com",
+  "role": "software_engineer",
+  "level": "medior",
+  "department": "engineering",
+  "start_date": "2026-10-25",
+  "manager_email": "sofia.jansen@corp.example",
+  "location": "amsterdam_office",
+  "contract_type": "permanent",
+  "visa_required": true,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

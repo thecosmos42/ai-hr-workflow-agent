@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 import streamlit as st
+from langgraph.types import Command
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from config.settings import get_settings
@@ -83,12 +84,10 @@ for case_id, full_name, role, status, reason, created in escalated:
                             label_visibility="collapsed"
                         )
                         response = graph.invoke(
-                            {
-                                "human_decision": "approve",
-                                "human_comment": comment or "Approved via dashboard",
-                            },
+                            Command(resume={"decision": "approve", "comment": comment or "Approved via dashboard"}),
                             {"configurable": {"thread_id": case_id}}
                         )
+                        response.pop("__interrupt__", None)
                         final = OnboardingState.model_validate(response)
                         st.success(f"✓ Approved! Status: {final.status}")
                         st.rerun()
@@ -105,12 +104,10 @@ for case_id, full_name, role, status, reason, created in escalated:
                             label_visibility="collapsed"
                         )
                         response = graph.invoke(
-                            {
-                                "human_decision": "reject",
-                                "human_comment": comment or "Rejected via dashboard",
-                            },
+                            Command(resume={"decision": "reject", "comment": comment or "Rejected via dashboard"}),
                             {"configurable": {"thread_id": case_id}}
                         )
+                        response.pop("__interrupt__", None)
                         final = OnboardingState.model_validate(response)
                         st.success(f"✓ Rejected. Status: {final.status}")
                         st.rerun()

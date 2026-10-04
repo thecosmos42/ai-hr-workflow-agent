@@ -1,17 +1,15 @@
 {
-  "case_id": "case-0016",
-  "full_name": "Amir Hassan",
-  "email": "amir.hassan_16@example.com",
+  "case_id": "case-0002",
+  "full_name": "Marcus Johnson",
+  "email": "marcus.johnson_2@example.com",
   "role": "software_engineer",
   "level": "medior",
   "department": "engineering",
-  "start_date": "2026-10-19",
+  "start_date": "2026-10-25",
   "manager_email": "tom.bakker@corp.example",
   "location": "amsterdam_office",
   "contract_type": "permanent",
   "visa_required": false,
   "accessibility_needs": null,
-  "requested_extras": [
-    "aws_prod access"
-  ]
+  "requested_extras": []
 }

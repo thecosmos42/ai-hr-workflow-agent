@@ -1,0 +1,15 @@
+{
+  "case_id": "case-0018",
+  "full_name": "Benjamin Hoffmann",
+  "email": "benjamin.hoffmann_18@example.com",
+  "role": "software_engineer",
+  "level": "senior",
+  "department": "engineering",
+  "start_date": "2026-10-20",
+  "manager_email": "unknown.manager@corp.example",
+  "location": "eindhoven_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": []
+}

@@ -1,0 +1,17 @@
+{
+  "case_id": "case-0022",
+  "full_name": "Amanda White",
+  "email": "amanda.white_22@example.com",
+  "role": "software_engineer",
+  "level": "junior",
+  "department": "engineering",
+  "start_date": "2026-10-24",
+  "manager_email": "lisa.smit@corp.example",
+  "location": "eindhoven_office",
+  "contract_type": "permanent",
+  "visa_required": false,
+  "accessibility_needs": null,
+  "requested_extras": [
+    "adobe_cc"
+  ]
+}
